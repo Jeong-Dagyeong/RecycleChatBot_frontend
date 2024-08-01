@@ -1,0 +1,5 @@
+.rcb-checkbox-container {
+  display: flex;
+  flexdirection: row;
+  flexwrap: wrap;
+}

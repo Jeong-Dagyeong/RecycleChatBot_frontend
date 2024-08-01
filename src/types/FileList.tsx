@@ -1,5 +1,5 @@
 export type FileList = {
   readonly length: number;
-  item(index: number): File | null;
+  item(index: number): string | ArrayBuffer | null;
   [index: number]: File;
 };
