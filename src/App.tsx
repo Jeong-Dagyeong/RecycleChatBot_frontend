@@ -6,9 +6,9 @@ import { uploadFileFlow } from './flows/uploadFileFlow';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import axios from 'axios';
-import '../src/components/CheckBoxContainer.css';
+import './components/CheckBoxContainer.css';
 
-type FlexDirection = 'row' | 'row-reverse' | 'column' | 'column-reverse';
+// type flexDirection = 'row' | 'row-reverse' | 'column' | 'column-reverse';
 
 type Message = {
   content: string;
@@ -52,9 +52,6 @@ function App() {
       primaryColor: '#526931',
       secondaryColor: '#526931',
     },
-    // chatHistory: {
-    //   storageKey: 'example_theming',
-    // },
     header: {
       title: <h1 className="font-semibold">Recycle ChatBot</h1>,
       showAvatar: false,
@@ -74,13 +71,7 @@ function App() {
     },
     botCheckboxRowStyle: {
       width: '30%',
-      display: 'flex',
-      flexDirection: 'row',
-      flexWrap: 'wrap',
-      // flexDirection: 'row'
-      // flexDirecttion: 'row'
     },
-
     footer: {
       text: (
         <div>
@@ -112,6 +103,7 @@ function App() {
     process_options: {
       // message: async (params: Params) => {
       //   console.log(params.userInput);
+
       //   const userMessage = params.userInput;
       //   try {
       //     const response = await axios.post('http://localhost:3000/', { userMessage });
@@ -165,7 +157,7 @@ function App() {
   return (
     <>
       <Container>
-        <button type="button" onClick={inputMessage} />
+        {/* <button type="button" onClick={inputMessage} /> */}
         <Box>
           {/* <MessagesContext.Provider value={{ messages: messages, setMessages: setMessages }}> */}
           <ChatBot options={options} flow={flow} />
