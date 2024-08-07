@@ -1,6 +1,6 @@
-import ChatBot, { MessagesContext, Options } from 'react-chatbotify';
+import ChatBot from 'react-chatbotify';
 import { Params } from './types/Params';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { districtFlow } from './flows/districtFlow';
 import { uploadFileFlow } from './flows/uploadFileFlow';
 import Box from '@mui/material/Box';
@@ -8,62 +8,40 @@ import Container from '@mui/material/Container';
 import axios from 'axios';
 import './components/CheckBoxContainer.css';
 
-// type flexDirection = 'row' | 'row-reverse' | 'column' | 'column-reverse';
-
-type Message = {
-  content: string;
-  sender: string;
-  type: string;
-};
-
 function App() {
   const [form, setForm] = React.useState<{ district: string }>({
     district: '',
   });
-  const [messages, setMessages] = React.useState<Message[]>([]);
 
-  const inputMessage = () => {
-    setMessages((prev: Message[]) => {
-      const newMessage = {
-        content: '안녕',
-        sender: 'boy',
-        type: 'string',
-      };
-      return [...prev, newMessage];
-    });
-  };
-
-  // const inputMessage = async (params : Params) => {
-  //   const userMessage = params.userInput;
-  //     try {
-  //         const response = await axios.post('http://localhost:3000/', { userMessage });
-  //         console.log(response.data);
-  //         setMessages((prev: Message) => {
-  //           return [...prev, response.data]
-  //         });
-  //       } catch (error) {
-  //         console.error(error);
-  //     }
-  // };
-
-  const options: Options = {
+  const settings = {
     theme: {
       embedded: true,
-      primaryColor: '#526931',
-      secondaryColor: '#526931',
+      showFooter: false,
     },
+    chatHistory: {
+      storageKey: 'example_advanced_messages',
+      disabled: true,
+    },
+    // botBubble: {
+    //   avatar: 'ho',
+    //   showAvatar: true,
+    // },
     header: {
-      title: <h1 className="font-semibold">Recycle ChatBot</h1>,
-      showAvatar: false,
+      title: (
+        <h1 className="header-font" style={{ color: '#888d92', fontSize: '50px' }}>
+          Recycle ChatBot
+        </h1>
+      ),
+      showAvatar: true,
+      avatar: 'https://img.icons8.com/?size=100&id=90922&format=png&color=000000',
     },
     chatWindowStyle: {
       backgroundColor: '#ffffff',
       width: '100%',
       height: '100vh',
     },
-    chatInputAreaStyle: {
-      // 타입에러
-      // placeHolder: '메세지를 입력해주세요.',
+    chatInput: {
+      enabledPlaceholderText: '메세지를 입력해주세요.',
     },
     chatInputAreaFocusedStyle: {
       outline: '1px solid #526931',
@@ -72,22 +50,26 @@ function App() {
     botCheckboxRowStyle: {
       width: '30%',
     },
+    botCheckMarkStyle: {
+      display: 'flex',
+    },
     footer: {
-      text: (
-        <div>
-          <span>Powered By </span>
-          <span className="font-bold">
-            <span>Recycle Team</span>
-          </span>
-        </div>
-      ),
+      // text: (
+      //   <div>
+      //     <p className="footer-text">ChatGPT는 실수를 할 수 있습니다.</p>
+      //     <p className="footer-text">보다 상세한 정보는 홈페이지를 이용하세요.</p>
+      //   </div>
+      // ),
     },
     footerStyle: {
       backgroundColor: '#ffffff',
     },
-    // advance: {
-    //   useAdvancedMessages: true,
-    // },
+    fileAttachment: {
+      showMediaDisplay: true,
+    },
+    emoji: {
+      disabled: true,
+    },
   };
 
   const helpOptions = ['사용방법', '재활용품 지원정책', '이미지'];
@@ -101,19 +83,7 @@ function App() {
     },
 
     process_options: {
-      // message: async (params: Params) => {
-      //   console.log(params.userInput);
-
-      //   const userMessage = params.userInput;
-      //   try {
-      //     const response = await axios.post('http://localhost:3000/', { userMessage });
-      //     console.log(response.data);
-      //   } catch (error) {
-      //     console.error(error);
-      //   }
-      // },
       transition: { duration: 0 },
-      chatDisabled: true,
       path: (params: Params) => {
         switch (params.userInput) {
           case '사용방법':
@@ -122,10 +92,8 @@ function App() {
             return 'district_start';
           case '이미지':
             return 'uploadFile_start';
-          case '재활용품 지원정책':
-            return 'district_start';
           default:
-            return 'default';
+            return 'communicate';
         }
       },
     },
@@ -133,12 +101,11 @@ function App() {
     middle: {
       message: '저는 재활용품과 관련된 여러분들의 궁금증을 해결해 드리는 Recyle Chatbot 입니다. 2. 물건 분리배출 방법 안내 블라블라라라라라라',
       options: howToReCycle,
-      path: 'process_options1',
+      path: 'how_to_recycle',
     },
 
-    process_options1: {
+    how_to_recycle: {
       transition: { duration: 0 },
-      chatDisabled: true,
       path: (params: Params) => {
         switch (params.userInput) {
           case '재활용품 지원 정책':
@@ -146,10 +113,35 @@ function App() {
           case '물건 분리배출 방법':
             return 'uploadFile_start';
           default:
-            return 'start';
+            return 'communicate';
         }
       },
     },
+
+    communicate: {
+      message: async (params: Params) => {
+        console.log(params.userInput);
+        const url = 'https://reqres.in/api/user/2';
+        const data = new URLSearchParams();
+        data.append('messages', params.userInput);
+        const userMessage = params.userInput;
+        // const inputSender = params.sender;
+        try {
+          const response = await axios.get(url, { data: { userMessage: userMessage } });
+          console.log(response.data.data.name);
+          return response.data.data.name;
+        } catch (error) {
+          console.error(error);
+        }
+      },
+      path: 'communicate_answer',
+    },
+
+    communicate_answer: {
+      transition: { duration: 0 },
+      path: 'communicate',
+    },
+
     ...districtFlow({ form, setForm }),
     ...uploadFileFlow,
   };
@@ -157,11 +149,8 @@ function App() {
   return (
     <>
       <Container>
-        {/* <button type="button" onClick={inputMessage} /> */}
         <Box>
-          {/* <MessagesContext.Provider value={{ messages: messages, setMessages: setMessages }}> */}
-          <ChatBot options={options} flow={flow} />
-          {/* </MessagesContext.Provider> */}
+          <ChatBot settings={settings} flow={flow} />
         </Box>
       </Container>
     </>

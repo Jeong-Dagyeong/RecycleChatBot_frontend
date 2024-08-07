@@ -12,7 +12,6 @@ const options = ['누리집(홈페이지) 바로가기'];
 export const districtFlow = ({ form, setForm }: DistrictFlowProps) => ({
   district_start: {
     message: '안녕하세요! Recycle ChatBot 입니다. 서울특별시 구별 재활용품 지원정책에 대해 궁금한것이 있다면 무엇이든지 물어보세요.',
-    // checkboxes: { items: ['서초구', '광진구', '도봉구', '관악구', '강남구'], max: 1 },
     checkboxes: {
       items: [
         '강남구',
@@ -58,26 +57,17 @@ export const districtFlow = ({ form, setForm }: DistrictFlowProps) => ({
     ),
     path: (params: Params) => {
       let url = '';
-      console.log('hi');
+      // console.log(params.userInput);
 
       switch (params.userInput) {
         case '누리집(홈페이지) 바로가기':
           url = 'https://react-chatbotify.com/docs/introduction/quickstart/';
-          // window.open(url, '_blank');
+          window.open(url, '_blank');
           break;
         default:
-          return 'start';
+          return 'communicate';
       }
-      setTimeout(() => {
-        window.open(url);
-      }, 1000);
-      return 'repeat';
     },
     options: options,
-  },
-
-  repeat: {
-    transition: { duration: 3000 },
-    path: 'start',
   },
 });

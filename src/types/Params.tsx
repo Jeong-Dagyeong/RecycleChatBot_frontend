@@ -3,4 +3,5 @@ export type Params = {
   injectMessage: (message: string) => Promise<void>; // injectMessage를 함수 타입으로 정의합니다.
   files?: FileList;
   inputMessage?: string;
+  sender?: string;
 };
