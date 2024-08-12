@@ -28,16 +28,16 @@ export const uploadFileFlow = {
     path: 'uploadFile_end',
   },
   reupload: {
-    message: '다른 사진을 업로드 해주세요!',
+    // message: '다른 사진을 업로드 해주세요!',
     file: (params: Params) => handleUpload(params),
     path: 'uploadFile_end',
   },
   uploadFile_end: {
     message: '보내주신 사진의 재활용법 입니다.',
-    render: <Card sx={{ maxWidth: 345 }}>{/* <img src=`{}` /> */}</Card>,
-    // 추가로 처음으로 버튼 생성
-    options: ['다른 사진 업로드 하기'],
+    component: <Card sx={{ maxWidth: 345 }}>{/* <img src=`{}` /> */}</Card>,
+    // 추가로 처음으로 버튼 생성 -> switch 사용법 확인
+    options: ['다른 사진 업로드 하기', '처음으로'],
     chatDisabled: false,
-    path: 'communicate',
+    path: 'reupload',
   },
 };

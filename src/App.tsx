@@ -14,58 +14,50 @@ function App() {
   });
 
   const settings = {
-    theme: {
-      embedded: true,
-      showFooter: false,
+    // isOpen : 오픈형식
+    isOpen: true,
+    general: {
+      fontFamily: 'Pretendard-Regular',
     },
     chatHistory: {
-      storageKey: 'example_advanced_messages',
       disabled: true,
     },
-    // botBubble: {
-    //   avatar: 'ho',
-    //   showAvatar: true,
-    // },
     header: {
       title: (
-        <h1 className="header-font" style={{ color: '#888d92', fontSize: '50px' }}>
-          Recycle ChatBot
-        </h1>
+        <div className="header-container" style={{ display: 'flex' }}>
+          <div style={{ color: '#163020', fontSize: '30px', fontWeight: '600' }}>서울 Rechat</div>
+          <div>
+            <img src="https://img.icons8.com/?size=100&id=13446&format=png&color=000000" style={{ width: '30px', height: '30px', marginTop: '6px', marginLeft: '5px' }} />
+          </div>
+        </div>
       ),
-      showAvatar: true,
-      avatar: 'https://img.icons8.com/?size=100&id=90922&format=png&color=000000',
+      avatar: '',
+      showAvatar: false,
+      closeChatIcon: 'https://img.icons8.com/?size=100&id=1NVn5K29mOSz&format=png&color=000000',
     },
-    chatWindowStyle: {
-      backgroundColor: '#ffffff',
-      width: '100%',
-      height: '100vh',
+    botBubble: {
+      showAvatar: true,
+      avatar: 'https://img.icons8.com/?size=100&id=13446&format=png&color=000000',
+      // avatar: 'https://img.icons8.com/?size=100&id=YHZMebEiEhFR&format=png&color=000000',
+      streamSpeed: 30,
+    },
+    notification: {
+      disabled: true,
     },
     chatInput: {
       enabledPlaceholderText: '메세지를 입력해주세요.',
     },
-    chatInputAreaFocusedStyle: {
-      outline: '1px solid #526931',
-      boxShadow: 'none',
-    },
-    botCheckboxRowStyle: {
-      width: '30%',
-    },
-    botCheckMarkStyle: {
-      display: 'flex',
-    },
-    footer: {
-      // text: (
-      //   <div>
-      //     <p className="footer-text">ChatGPT는 실수를 할 수 있습니다.</p>
-      //     <p className="footer-text">보다 상세한 정보는 홈페이지를 이용하세요.</p>
-      //   </div>
-      // ),
-    },
-    footerStyle: {
-      backgroundColor: '#ffffff',
-    },
     fileAttachment: {
       showMediaDisplay: true,
+      sendFileName: false,
+    },
+    footer: {
+      text: (
+        <div>
+          <span>Team </span>
+          <span style={{ fontWeight: 'bold' }}>4Cycle</span>
+        </div>
+      ),
     },
     emoji: {
       disabled: true,
@@ -77,7 +69,7 @@ function App() {
 
   const flow = {
     start: {
-      message: '안녕하세요! Recycle ChatBot 입니다. 재활용품과 관련하여 궁금한 것이 있으시다면 무엇이든지 물어보세요!',
+      message: '안녕하세요! Seoul Rechat 입니다. \n재활용품과 관련하여 궁금한 것이 있으시다면 무엇이든지 물어보세요!',
       options: helpOptions,
       path: 'process_options',
     },
@@ -128,6 +120,8 @@ function App() {
         // const inputSender = params.sender;
         try {
           const response = await axios.get(url, { data: { userMessage: userMessage } });
+          console.log(response.data);
+
           console.log(response.data.data.name);
           return response.data.data.name;
         } catch (error) {

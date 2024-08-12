@@ -11,7 +11,7 @@ const options = ['누리집(홈페이지) 바로가기'];
 
 export const districtFlow = ({ form, setForm }: DistrictFlowProps) => ({
   district_start: {
-    message: '안녕하세요! Recycle ChatBot 입니다. 서울특별시 구별 재활용품 지원정책에 대해 궁금한것이 있다면 무엇이든지 물어보세요.',
+    message: '안녕하세요! Seoul Rechat 입니다. \n서울특별시 구별 재활용품 지원정책에 대해 궁금한것이 있다면 무엇이든지 물어보세요.',
     checkboxes: {
       items: [
         '강남구',
@@ -49,8 +49,8 @@ export const districtFlow = ({ form, setForm }: DistrictFlowProps) => ({
 
   district_end: {
     message: `서울특별시 ${form.district}의 결과는 다음과 같습니다.`,
-    render: (
-      <Box component="section" sx={{ p: 2, border: '1px solid grey', mt: 2 }}>
+    component: (
+      <Box component="section" sx={{ p: 2, border: '1px solid grey', mt: 2, ml: 6 }}>
         <p>페트병 10개</p>
         <p>종량제 봉투 10L 1개</p>
       </Box>

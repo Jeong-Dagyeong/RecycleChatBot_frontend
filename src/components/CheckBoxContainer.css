@@ -1,3 +1,13 @@
+body {
+  background-color: #e2e2e2;
+}
+
+.rcb-chat-window {
+  /* box-shadow: none !important; */
+  /* border: 1px solid black !important; */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
 /* 25개 구  */
 .rcb-checkbox-container {
   display: flex !important;
@@ -7,6 +17,28 @@
 
 .rcb-checkbox-row-container {
   width: 100px !important;
+  color: #163020 !important;
+  border-color: #163020 !important;
+}
+
+.rcb-checkbox-offset {
+  margin-left: 44px !important;
+}
+
+.rcb-checkbox-mark {
+  border-color: #163020 !important;
+  background-color: #304d30 !important;
+  /* color: black !important; */
+  align-items: normal !important;
+}
+
+.rcb-checkbox-next-button {
+  width: 92% !important;
+  color: #163020 !important;
+  border-color: #163020 !important;
+  display: flex !important;
+  align-items: flex-start;
+  justify-content: center !important;
 }
 
 .rcb-chat-window {
@@ -14,12 +46,12 @@
   height: 650px !important;
 }
 
-body {
-  font-family: 'Pretendard-Regular' !important;
-}
-
 /* 헤더 */
+.header-container {
+  display: flex !important;
+}
 .rcb-chat-header {
+  display: flex !important;
   align-items: center;
 }
 
@@ -29,13 +61,12 @@ body {
   border-bottom: none !important;
   height: 100px !important;
   max-height: none !important;
+  padding: 0px 12px 0px 22px !important;
 }
 
 .header-font {
   font-size: 30px !important;
   font-family: 'Pretendard-Regular' !important;
-  /* font-optical-sizing: auto !important; */
-  /* font-weight: bold !important; */
 }
 
 /* 아바타 */
@@ -46,43 +77,54 @@ body {
 
 /* user 말풍선  */
 .rcb-user-message.rcb-user-message-entry {
-  background-color: rgba(194, 204, 211, 0.22) !important;
-  color: #888d92 !important;
-  /* c9cfd3
-  c7cfd6 */
+  background-color: #304d30 !important;
+  color: #fbfbfb !important;
+  /* padding: 8px 10px 8px 10px !important;  */
+  /* font-size: inherit !important; */
+}
+
+.rcb-user-message.rcb-user-message-entry {
+  margin-top: 20px !important;
 }
 
 /* chatbot 말풍선 */
 .rcb-bot-message.rcb-bot-message-entry {
-  background-color: #ebf4ff !important;
-  color: #888d92 !important;
+  /* background-color: #f1f1f1 !important; */
+  background-color: #eef0e5 !important;
+  /* color: #3c3c3c !important; */
+  color: #163020 !important;
+}
+
+.rcb-message-bot-avatar {
+  width: 30px !important;
+  height: 30px !important;
 }
 
 /* chatbot 버튼 */
-.rcb-options-container {
-  /* display: flex; */
-}
 .rcb-options {
   background-color: #fbfbfb !important;
-  color: #888d92 !important;
-  border-color: #888d92 !important;
+  /* color: #7f7e7e !important; */
+  color: #163020 !important;
+  /* border-color: #afaeae !important; */
+  border-color: #163020 !important;
   font-size: 12px !important;
   padding: 8px 15px !important;
 }
 
-.rcb-chat-body-container {
-  /* background-color: #ffffee !important; */
+.rcb-options-offset {
+  margin-left: 44px !important;
 }
 
-/* 버튼 */
+/* send 버튼 */
 .rcb-send-button {
-  background-color: #ebf4ff !important;
+  background-color: #304d30 !important;
   box-shadow: none !important;
   border-radius: 10px !important;
+  /* display: none !important; */
 }
 
 .rcb-send-icon {
-  background-image: URL('https://img.icons8.com/?size=100&id=2837&format=png&color=888D92C7') !important;
+  background-image: URL('https://img.icons8.com/?size=100&id=2837&format=png&color=fbfbfb') !important;
 }
 
 .rcb-chat-input {
@@ -92,21 +134,21 @@ body {
 
 /* input box */
 .rcb-chat-input {
-  width: 100% !important;
+  width: 95% !important;
+  display: absolute !important;
+  padding: 8px 0px 8px 16px !important;
 }
 
 .rcb-chat-input-textarea {
+  width: 80% !important;
   border-radius: 15px !important;
-  background-color: rgba(194, 204, 211, 0.22) !important;
-  padding: 10px !important;
+  background-color: #eef0e5 !important;
+  padding: 20px 10px 10px 40px !important;
+  box-shadow: none !important;
 }
 
 .rcb-chat-input-textarea:focus {
   outline: 0 !important;
-}
-
-.rcb-chat-footer-container {
-  border-top: none !important;
 }
 
 .footer-text {
@@ -116,18 +158,28 @@ body {
 
 .rcb-chat-footer-container {
   padding: 0px 16px 8px 10px !important;
+  background-color: #ffffff !important;
+  border: none !important;
 }
 
-.rcb-attach-icon-disabled {
-  background-image: URL('https://img.icons8.com/?size=100&id=59728&format=png&color=888D92C7') !important;
+.rcb-chat-footer {
+  display: absolute !important;
 }
 
-/* 체크박스 */
-.rcb-checkbox-row-container {
+.rcb-attach-button-disabled {
+  display: relative !important;
+  margin-top: -75px !important;
+  /* margin-right: 10px !important; */
+  margin-left: 13px !important;
 }
 
 /* 이미지 */
 .rcb-media-display-image-container.rcb-media-entry {
   background-color: #ffffff !important;
   padding: 0px !important;
+}
+
+.rcb-chat-footer-container::after {
+  /* display: none !important; */
+  /* content: '' !important; */
 }
