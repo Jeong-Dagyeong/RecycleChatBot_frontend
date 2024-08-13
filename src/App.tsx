@@ -18,17 +18,28 @@ function App() {
     isOpen: true,
     general: {
       fontFamily: 'Pretendard-Regular',
+      primaryColor: '#304D30',
+    },
+    tooltip: {
+      mode: 'CLOSE',
+      text: '서울 Rechat 😊',
     },
     chatHistory: {
       disabled: true,
     },
+    chatWindow: {
+      showMessagePrompt: false,
+    },
     header: {
       title: (
         <div className="header-container" style={{ display: 'flex' }}>
-          <div style={{ color: '#163020', fontSize: '30px', fontWeight: '600' }}>서울 Rechat</div>
-          <div>
-            <img src="https://img.icons8.com/?size=100&id=13446&format=png&color=000000" style={{ width: '30px', height: '30px', marginTop: '6px', marginLeft: '5px' }} />
-          </div>
+          <div style={{ color: '#163020', fontSize: '28px', fontWeight: '600' }}>Green Seoul Bot</div>
+          {/* <div style={{ color: '#163020', fontSize: '28px', fontWeight: '600' }}>그린 서울 봇</div> */}
+          {/* <div>
+          {/* <div>
+            <img src="https://img.icons8.com/?size=100&id=3725&format=png&color=304D30" style={{ width: '20px', height: '20px', marginTop: '6px', marginLeft: '5px' }} />
+          </div> */}
+          <div>{/* <img src="https://img.icons8.com/?size=100&id=13446&format=png&color=000000" style={{ width: '30px', height: '30px', marginTop: '6px', marginLeft: '5px' }} /> */}</div>
         </div>
       ),
       avatar: '',
@@ -69,7 +80,7 @@ function App() {
 
   const flow = {
     start: {
-      message: '안녕하세요! Seoul Rechat 입니다. \n재활용품과 관련하여 궁금한 것이 있으시다면 무엇이든지 물어보세요!',
+      message: '안녕하세요! 서울 Rechat 입니다. \n재활용품과 관련하여 궁금한 것이 있으시다면 무엇이든지 물어보세요!',
       options: helpOptions,
       path: 'process_options',
     },

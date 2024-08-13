@@ -7,7 +7,7 @@ type DistrictFlowProps = {
   setForm: Dispatch<SetStateAction<{ district: string }>>;
 };
 
-const options = ['누리집(홈페이지) 바로가기'];
+const options = ['누리집(홈페이지) 바로가기', '처음으로'];
 
 export const districtFlow = ({ form, setForm }: DistrictFlowProps) => ({
   district_start: {
@@ -50,7 +50,7 @@ export const districtFlow = ({ form, setForm }: DistrictFlowProps) => ({
   district_end: {
     message: `서울특별시 ${form.district}의 결과는 다음과 같습니다.`,
     component: (
-      <Box component="section" sx={{ p: 2, border: '1px solid grey', mt: 2, ml: 6 }}>
+      <Box component="section" sx={{ p: 2, border: '1px solid grey', mt: 2, ml: 8.5 }}>
         <p>페트병 10개</p>
         <p>종량제 봉투 10L 1개</p>
       </Box>
@@ -64,6 +64,8 @@ export const districtFlow = ({ form, setForm }: DistrictFlowProps) => ({
           url = 'https://react-chatbotify.com/docs/introduction/quickstart/';
           window.open(url, '_blank');
           break;
+        case '처음으로':
+          return 'start';
         default:
           return 'communicate';
       }

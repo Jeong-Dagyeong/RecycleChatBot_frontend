@@ -1,11 +1,9 @@
-body {
-  background-color: #e2e2e2;
-}
-
 .rcb-chat-window {
-  /* box-shadow: none !important; */
-  /* border: 1px solid black !important; */
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.24);
+  box-shadow:
+    rgba(255, 255, 255, 0.12) 0px 0px 2px 0px inset,
+    rgba(0, 0, 0, 0.05) 0px 0px 2px 1px,
+    rgba(0, 0, 0, 0.3) 0px 12px 60px;
+  border-radius: 30px !important;
 }
 
 /* 25개 구  */
@@ -18,7 +16,7 @@ body {
 .rcb-checkbox-row-container {
   width: 100px !important;
   color: #163020 !important;
-  border-color: #163020 !important;
+  border-color: #b6c4b6 !important;
 }
 
 .rcb-checkbox-offset {
@@ -26,16 +24,16 @@ body {
 }
 
 .rcb-checkbox-mark {
-  border-color: #163020 !important;
-  background-color: #304d30 !important;
-  /* color: black !important; */
+  background-color: #eef0e5;
   align-items: normal !important;
+  content: '✓';
+  transition: all 0.3s ease;
 }
 
 .rcb-checkbox-next-button {
   width: 92% !important;
-  color: #163020 !important;
-  border-color: #163020 !important;
+  color: #b6c4b6 !important;
+  border-color: #b6c4b6 !important;
   display: flex !important;
   align-items: flex-start;
   justify-content: center !important;
@@ -50,6 +48,13 @@ body {
 .header-container {
   display: flex !important;
 }
+
+.rcb-close-chat-icon {
+  width: 18px !important;
+  height: 20px !important;
+  margin-right: 10px !important;
+}
+
 .rcb-chat-header {
   display: flex !important;
   align-items: center;
@@ -61,7 +66,7 @@ body {
   border-bottom: none !important;
   height: 100px !important;
   max-height: none !important;
-  padding: 0px 12px 0px 22px !important;
+  padding: 10px 12px 0px 30px !important;
 }
 
 .header-font {
@@ -79,72 +84,72 @@ body {
 .rcb-user-message.rcb-user-message-entry {
   background-color: #304d30 !important;
   color: #fbfbfb !important;
-  /* padding: 8px 10px 8px 10px !important;  */
-  /* font-size: inherit !important; */
+  padding: 7px 12px !important;
+  font-size: 14px !important;
 }
 
 .rcb-user-message.rcb-user-message-entry {
   margin-top: 20px !important;
+  margin-right: 28px !important;
 }
 
 /* chatbot 말풍선 */
 .rcb-bot-message.rcb-bot-message-entry {
-  /* background-color: #f1f1f1 !important; */
   background-color: #eef0e5 !important;
-  /* color: #3c3c3c !important; */
   color: #163020 !important;
 }
 
 .rcb-message-bot-avatar {
   width: 30px !important;
   height: 30px !important;
+  margin-left: 28px !important;
 }
 
 /* chatbot 버튼 */
 .rcb-options {
   background-color: #fbfbfb !important;
-  /* color: #7f7e7e !important; */
   color: #163020 !important;
-  /* border-color: #afaeae !important; */
   border-color: #163020 !important;
   font-size: 12px !important;
-  padding: 8px 15px !important;
+  padding: 7px 12px !important;
 }
 
 .rcb-options-offset {
-  margin-left: 44px !important;
+  margin-left: 64px !important;
 }
 
 /* send 버튼 */
 .rcb-send-button {
   background-color: #304d30 !important;
   box-shadow: none !important;
-  border-radius: 10px !important;
-  /* display: none !important; */
+  border-radius: 30px !important;
+  height: 42px !important;
+  width: 42px !important;
 }
 
 .rcb-send-icon {
   background-image: URL('https://img.icons8.com/?size=100&id=2837&format=png&color=fbfbfb') !important;
-}
-
-.rcb-chat-input {
-  height: 100px !important;
-  border-top: none !important;
+  width: 20px !important;
+  height: 20px !important;
 }
 
 /* input box */
 .rcb-chat-input {
-  width: 95% !important;
-  display: absolute !important;
+  width: 90% !important;
+  /* display: absolute !important; */
   padding: 8px 0px 8px 16px !important;
+  height: 100px !important;
+  border-top: none !important;
+  margin-left: 14px !important;
 }
 
 .rcb-chat-input-textarea {
   width: 80% !important;
-  border-radius: 15px !important;
+  border-radius: 50px !important;
   background-color: #eef0e5 !important;
-  padding: 20px 10px 10px 40px !important;
+  padding: 14px 0px 0px 20px !important;
   box-shadow: none !important;
+  box-sizing: unset !important;
 }
 
 .rcb-chat-input-textarea:focus {
@@ -166,11 +171,29 @@ body {
   display: absolute !important;
 }
 
+.rcb-attach-icon-disabled {
+  background-image: URL('https://img.icons8.com/?size=100&id=ctfuCrTkdAJ8&format=png&color=304D30') !important;
+  /* margin-left: 17px !important; */
+  margin-top: -4px !important;
+}
+
+.rcb-attach-icon-enabled {
+  background-image: URL('https://img.icons8.com/?size=100&id=ctfuCrTkdAJ8&format=png&color=304D30') !important;
+  /* margin-left: 17xp !important; */
+  margin-top: -4px !important;
+}
+
+.rcb-attach-button-enabled,
 .rcb-attach-button-disabled {
-  display: relative !important;
-  margin-top: -75px !important;
-  /* margin-right: 10px !important; */
-  margin-left: 13px !important;
+  margin-left: 17px !important;
+}
+
+.rcb-attach-button-enabled:after {
+  background-image: URL('https://img.icons8.com/?size=100&id=ctfuCrTkdAJ8&format=png&color=304D30');
+  position: unset !important;
+  top: 0% !important;
+  left: 0% !important;
+  background-color: transparent !important;
 }
 
 /* 이미지 */
@@ -179,7 +202,18 @@ body {
   padding: 0px !important;
 }
 
-.rcb-chat-footer-container::after {
-  /* display: none !important; */
-  /* content: '' !important; */
+/* Tooltip  */
+.rcb-chat-tooltip.rcb-tooltip-show {
+  opacity: 1;
+  visibility: visible;
+  animation: tooltip-in 0.5s ease-in-out;
+  background-color: #304d30 !important;
+  color: #fbfbfb !important;
+}
+
+.rcb-chat-tooltip-tail {
+  border-color: #304d30 !important;
+  border-top-color: transparent !important;
+  border-right-color: transparent !important;
+  border-bottom-color: transparent !important;
 }
