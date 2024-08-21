@@ -1,17 +1,19 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import { Params } from '../types/Params';
 import Box from '@mui/material/Box';
+import axios from 'axios';
+import { Link } from '@mui/material';
 
 type DistrictFlowProps = {
   form: { district: string };
   setForm: Dispatch<SetStateAction<{ district: string }>>;
 };
 
-const options = ['누리집(홈페이지) 바로가기', '처음으로'];
+const options = ['처음으로'];
 
-export const districtFlow = ({ form, setForm }: DistrictFlowProps) => ({
+export const DistrictFlow = ({ form, setForm }: DistrictFlowProps) => ({
   district_start: {
-    message: '안녕하세요! Seoul Rechat 입니다. \n서울특별시 구별 재활용품 지원정책에 대해 궁금한것이 있다면 무엇이든지 물어보세요.',
+    message: '안녕하세요! Green Seoul Bot 입니다. \n서울특별시 구별 재활용품 지원정책에 대해 궁금한것이 있다면 무엇이든지 물어보세요.',
     checkboxes: {
       items: [
         '강남구',
@@ -43,33 +45,56 @@ export const districtFlow = ({ form, setForm }: DistrictFlowProps) => ({
       max: 1,
     },
     chatDisabled: true,
-    function: (params: Params) => setForm({ ...form, district: params.userInput }),
+
+    function: async (params: Params) => {
+      setForm({ ...form, district: params.userInput });
+      const url = 'http://43.201.146.141:8000/chatbot/policy';
+
+      const district_name = params.userInput;
+
+      console.log('params', params.userInput);
+      try {
+        const response = await axios.post(url, { district_name: district_name });
+        console.log(response);
+        console.log(typeof response);
+        console.log(typeof district_name);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
     path: 'district_end',
   },
 
   district_end: {
     message: `서울특별시 ${form.district}의 결과는 다음과 같습니다.`,
-    component: (
-      <Box component="section" sx={{ p: 2, border: '1px solid grey', mt: 2, ml: 8.5 }}>
-        <p>페트병 10개</p>
-        <p>종량제 봉투 10L 1개</p>
-      </Box>
-    ),
-    path: (params: Params) => {
-      let url = '';
-      // console.log(params.userInput);
+    component: async (params: Params) => {
+      const url = 'http://43.201.146.141:8000/chatbot/policy';
+      const district_name = params.userInput;
+      console.log('district_name', params.userInput);
+      try {
+        const response = await axios.post(url, { district_name: district_name });
+        console.log(response);
+        console.log('message', response.data.message);
 
-      switch (params.userInput) {
-        case '누리집(홈페이지) 바로가기':
-          url = 'https://react-chatbotify.com/docs/introduction/quickstart/';
-          window.open(url, '_blank');
-          break;
-        case '처음으로':
-          return 'start';
-        default:
-          return 'communicate';
+        console.log(typeof response);
+        console.log(typeof district_name);
+        // 안돼
+        return (
+          <Box sx={{ p: 2, border: '1px solid grey', mt: 2, marginLeft: 8, width: 300, borderRadius: 2, borderColor: 163020 }}>
+            <Box component="section">
+              <p>{response.data.message}</p>
+            </Box>
+            <Link href={response.data.district_url} target="_blank" variant="body2" sx={{ mt: 1 }}>
+              누리집(홈페이지) 바로가기
+            </Link>
+          </Box>
+        );
+      } catch (error) {
+        console.log(error);
       }
     },
+    path: 'start',
     options: options,
   },
 });

@@ -1,3 +1,19 @@
+* {
+  font-family: 'Pretendard-Regular' !important;
+  src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff') !important;
+  font-style: normal !important;
+}
+
+.rcb-toggle-button.rcb-button-show {
+  background-image: url('/public/asset/recycle-icon.png') !important;
+  /* background-color: black !important; */
+  width: 75px;
+  height: 75px;
+}
+
+.rcb-chat-tooltip.rcb-tooltip-show {
+}
+
 .rcb-chat-window {
   box-shadow:
     rgba(255, 255, 255, 0.12) 0px 0px 2px 0px inset,

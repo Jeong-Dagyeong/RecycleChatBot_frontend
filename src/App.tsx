@@ -1,12 +1,12 @@
 import ChatBot from 'react-chatbotify';
 import { Params } from './types/Params';
-import React from 'react';
-import { districtFlow } from './flows/districtFlow';
+import React, { useRef, Dispatch, SetStateAction } from 'react';
 import { uploadFileFlow } from './flows/uploadFileFlow';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import axios from 'axios';
 import './components/CheckBoxContainer.css';
+import { DistrictFlow } from './flows/DistrictFlow';
 
 function App() {
   const [form, setForm] = React.useState<{ district: string }>({
@@ -22,7 +22,7 @@ function App() {
     },
     tooltip: {
       mode: 'CLOSE',
-      text: '서울 Rechat 😊',
+      text: 'Click Me!',
     },
     chatHistory: {
       disabled: true,
@@ -34,12 +34,6 @@ function App() {
       title: (
         <div className="header-container" style={{ display: 'flex' }}>
           <div style={{ color: '#163020', fontSize: '28px', fontWeight: '600' }}>Green Seoul Bot</div>
-          {/* <div style={{ color: '#163020', fontSize: '28px', fontWeight: '600' }}>그린 서울 봇</div> */}
-          {/* <div>
-          {/* <div>
-            <img src="https://img.icons8.com/?size=100&id=3725&format=png&color=304D30" style={{ width: '20px', height: '20px', marginTop: '6px', marginLeft: '5px' }} />
-          </div> */}
-          <div>{/* <img src="https://img.icons8.com/?size=100&id=13446&format=png&color=000000" style={{ width: '30px', height: '30px', marginTop: '6px', marginLeft: '5px' }} /> */}</div>
         </div>
       ),
       avatar: '',
@@ -49,7 +43,7 @@ function App() {
     botBubble: {
       showAvatar: true,
       avatar: 'https://img.icons8.com/?size=100&id=13446&format=png&color=000000',
-      // avatar: 'https://img.icons8.com/?size=100&id=YHZMebEiEhFR&format=png&color=000000',
+
       streamSpeed: 30,
     },
     notification: {
@@ -61,6 +55,7 @@ function App() {
     fileAttachment: {
       showMediaDisplay: true,
       sendFileName: false,
+      multiple: false,
     },
     footer: {
       text: (
@@ -75,26 +70,23 @@ function App() {
     },
   };
 
-  const helpOptions = ['사용방법', '재활용품 지원정책', '이미지'];
+  const helpOptions = ['사용방법', '재활용품 지원정책', '이미지로 대형폐기물 배출 안내'];
   const howToReCycle = ['재활용품 지원 정책', '물건 분리배출 방법'];
 
   const flow = {
     start: {
-      message: '안녕하세요! 서울 Rechat 입니다. \n재활용품과 관련하여 궁금한 것이 있으시다면 무엇이든지 물어보세요!',
+      message: '안녕하세요! 서울 Green Seoul Bot 입니다. \n재활용품과 관련하여 궁금한 것이 있으시다면 무엇이든지 물어보세요!',
       options: helpOptions,
-      path: 'process_options',
-    },
-
-    process_options: {
-      transition: { duration: 0 },
       path: (params: Params) => {
+        console.log();
+
         switch (params.userInput) {
           case '사용방법':
             return 'middle';
           case '재활용품 지원정책':
             return 'district_start';
-          case '이미지':
-            return 'uploadFile_start';
+          case '이미지로 대형폐기물 배출 안내':
+            return 'uploadFile_district';
           default:
             return 'communicate';
         }
@@ -113,7 +105,7 @@ function App() {
         switch (params.userInput) {
           case '재활용품 지원 정책':
             return 'district_start';
-          case '물건 분리배출 방법':
+          case '대형가전 배출 방법':
             return 'uploadFile_start';
           default:
             return 'communicate';
@@ -123,23 +115,20 @@ function App() {
 
     communicate: {
       message: async (params: Params) => {
+        const url = 'http://43.201.146.141:8000/chatbot/chat';
+        const user_input = params.userInput;
+        console.log(user_input);
         console.log(params.userInput);
-        const url = 'https://reqres.in/api/user/2';
-        const data = new URLSearchParams();
-        data.append('messages', params.userInput);
-        const userMessage = params.userInput;
-        // const inputSender = params.sender;
         try {
-          const response = await axios.get(url, { data: { userMessage: userMessage } });
-          console.log(response.data);
-
-          console.log(response.data.data.name);
-          return response.data.data.name;
+          const response = await axios.post(url, { user_input: user_input });
+          console.log('response.data.message', response.data.message);
+          return response.data.message;
         } catch (error) {
-          console.error(error);
+          console.log(error);
         }
       },
-      path: 'communicate_answer',
+
+      path: 'process_options',
     },
 
     communicate_answer: {
@@ -147,7 +136,7 @@ function App() {
       path: 'communicate',
     },
 
-    ...districtFlow({ form, setForm }),
+    ...DistrictFlow({ form, setForm }),
     ...uploadFileFlow,
   };
 
