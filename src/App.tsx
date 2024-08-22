@@ -137,7 +137,7 @@ function App() {
     },
 
     ...DistrictFlow({ form, setForm }),
-    ...uploadFileFlow,
+    ...uploadFileFlow({ form, setForm }),
   };
 
   return (
