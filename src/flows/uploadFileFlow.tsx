@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import { Params } from '../types/Params';
 import Card from '@mui/material/Card';
 import axios from 'axios';

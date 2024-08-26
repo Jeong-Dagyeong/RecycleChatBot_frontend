@@ -1,6 +1,6 @@
 import ChatBot from 'react-chatbotify';
 import { Params } from './types/Params';
-import React, { useRef, Dispatch, SetStateAction } from 'react';
+import React from 'react';
 import { uploadFileFlow } from './flows/uploadFileFlow';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
