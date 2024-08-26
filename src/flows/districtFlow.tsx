@@ -79,7 +79,7 @@ export const DistrictFlow = ({ form, setForm }: DistrictFlowProps) => ({
 
         console.log(typeof response);
         console.log(typeof district_name);
-        // 안돼
+
         return (
           <Box sx={{ p: 2, border: '1px solid grey', mt: 2, marginLeft: 8, width: 300, borderRadius: 2, borderColor: 163020 }}>
             <Box component="section">

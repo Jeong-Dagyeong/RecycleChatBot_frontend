@@ -8,7 +8,7 @@ type DistrictFlowProps = {
   setForm: Dispatch<SetStateAction<{ district: string }>>;
 };
 
-export const handleUpload = async (params: Params) => {
+export const handleUpload = async (params: Params, { form, setForm }: DistrictFlowProps) => {
   const uploadFile = params.files?.[0];
 
   if (uploadFile) {
@@ -16,7 +16,7 @@ export const handleUpload = async (params: Params) => {
     formData.append('files', uploadFile);
 
     try {
-      const district_name = params.userInput;
+      const district_name = form.district;
       console.log('지역 이름:', district_name);
       console.log('업로드할 파일:', uploadFile);
 
@@ -96,7 +96,7 @@ export const uploadFileFlow = ({ form, setForm }: DistrictFlowProps) => ({
     message: '사진을 업로드 해주세요!',
     chatDisabled: true,
     file: (params: Params) => {
-      handleUpload(params);
+      handleUpload(params, { form, setForm });
       // console.log('form', form);
       // console.log('params', params);
     },
@@ -106,7 +106,7 @@ export const uploadFileFlow = ({ form, setForm }: DistrictFlowProps) => ({
     message: '다른 사진을 업로드 해주세요!',
     chatDisabled: true,
     file: (params: Params) => {
-      handleUpload(params);
+      handleUpload(params, { form, setForm });
     },
     path: 'uploadFile_end',
   },
