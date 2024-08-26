@@ -118,26 +118,31 @@ function App() {
         const url = 'http://43.201.146.141:8000/chatbot/chat';
         const user_input = params.userInput;
         console.log(user_input);
+        console.log('hi');
+
         console.log(params.userInput);
         try {
           const response = await axios.post(url, { user_input: user_input });
           console.log('response.data.message', response.data.message);
+          console.log('hi1');
+
           return response.data.message;
         } catch (error) {
           console.log(error);
+          console.log('hi2');
         }
       },
 
       path: 'process_options',
     },
 
-    communicate_answer: {
-      transition: { duration: 0 },
-      path: 'communicate',
-    },
+    // communicate_answer: {
+    //   transition: { duration: 0 },
+    //   path: 'communicate',
+    // },
 
     ...DistrictFlow({ form, setForm }),
-    ...uploadFileFlow,
+    ...uploadFileFlow({ form, setForm }),
   };
 
   return (
