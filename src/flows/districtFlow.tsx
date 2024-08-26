@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import { Params } from '../types/Params';
 import Box from '@mui/material/Box';
 import axios from 'axios';
