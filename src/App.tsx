@@ -19,6 +19,7 @@ function App() {
     general: {
       fontFamily: 'Pretendard-Regular',
       primaryColor: '#304D30',
+      actionDisabledIcon: 'none',
     },
     tooltip: {
       mode: 'CLOSE',
@@ -56,6 +57,7 @@ function App() {
       showMediaDisplay: true,
       sendFileName: false,
       multiple: false,
+      accept: '*',
     },
     footer: {
       text: (
@@ -71,15 +73,13 @@ function App() {
   };
 
   const helpOptions = ['사용방법', '재활용품 지원정책', '이미지로 대형폐기물 배출 안내'];
-  const howToReCycle = ['재활용품 지원 정책', '물건 분리배출 방법'];
+  const howToReCycle = ['재활용품 지원 정책', '이미지로 대형폐기물 배출 안내'];
 
   const flow = {
     start: {
       message: '안녕하세요! 서울 Green Seoul Bot 입니다. \n재활용품과 관련하여 궁금한 것이 있으시다면 무엇이든지 물어보세요!',
       options: helpOptions,
       path: (params: Params) => {
-        console.log();
-
         switch (params.userInput) {
           case '사용방법':
             return 'middle';
@@ -105,8 +105,8 @@ function App() {
         switch (params.userInput) {
           case '재활용품 지원 정책':
             return 'district_start';
-          case '대형가전 배출 방법':
-            return 'uploadFile_start';
+          case '이미지로 대형폐기물 배출 안내':
+            return 'uploadFile_district';
           default:
             return 'communicate';
         }
@@ -115,25 +115,28 @@ function App() {
 
     communicate: {
       message: async (params: Params) => {
-        const url = 'http://43.201.146.141:8000/chatbot/chat';
+        const url = 'http://3.219.73.203:8000/chatbot/chat';
         const user_input = params.userInput;
-        console.log(user_input);
-        console.log('hi');
+        console.log('params.userInput', params.userInput);
+        console.log('type', typeof user_input);
 
-        console.log(params.userInput);
         try {
           const response = await axios.post(url, { user_input: user_input });
           console.log('response.data.message', response.data.message);
-          console.log('hi1');
-
           return response.data.message;
         } catch (error) {
           console.log(error);
-          console.log('hi2');
         }
       },
-
-      path: 'process_options',
+      options: ['처음으로'],
+      path: (params: Params) => {
+        switch (params.userInput) {
+          case '처음으로':
+            return 'start';
+          default:
+            return 'communicate';
+        }
+      },
     },
 
     // communicate_answer: {

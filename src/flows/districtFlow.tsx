@@ -9,7 +9,7 @@ type DistrictFlowProps = {
   setForm: Dispatch<SetStateAction<{ district: string }>>;
 };
 
-const options = ['처음으로'];
+// const options = ['처음으로'];
 
 export const DistrictFlow = ({ form, setForm }: DistrictFlowProps) => ({
   district_start: {
@@ -45,10 +45,10 @@ export const DistrictFlow = ({ form, setForm }: DistrictFlowProps) => ({
       max: 1,
     },
     chatDisabled: true,
-
+    // 리팩토링 가능한 코드
     function: async (params: Params) => {
       setForm({ ...form, district: params.userInput });
-      const url = 'http://43.201.146.141:8000/chatbot/policy';
+      const url = 'http://3.219.73.203:8000/chatbot/policy';
 
       const district_name = params.userInput;
 
@@ -69,7 +69,7 @@ export const DistrictFlow = ({ form, setForm }: DistrictFlowProps) => ({
   district_end: {
     message: `서울특별시 ${form.district}의 결과는 다음과 같습니다.`,
     component: async (params: Params) => {
-      const url = 'http://43.201.146.141:8000/chatbot/policy';
+      const url = 'http://3.219.73.203:8000/chatbot/policy';
       const district_name = params.userInput;
       console.log('district_name', params.userInput);
       try {
@@ -94,7 +94,14 @@ export const DistrictFlow = ({ form, setForm }: DistrictFlowProps) => ({
         console.log(error);
       }
     },
-    path: 'start',
-    options: options,
+    options: ['처음으로'],
+    path: (params: Params) => {
+      switch (params.userInput) {
+        case '처음으로':
+          return 'start';
+        default:
+          return 'communicate';
+      }
+    },
   },
 });

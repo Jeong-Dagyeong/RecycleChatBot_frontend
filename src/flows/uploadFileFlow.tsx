@@ -13,23 +13,30 @@ export const handleUpload = async (params: Params, { form, setForm }: DistrictFl
 
   if (uploadFile) {
     const formData = new FormData();
-    formData.append('files', uploadFile);
+    formData.append('image_file', uploadFile);
+    formData.append('district_name', form.district);
+
+    // 디버깅을 위한 FormData 내용 출력 (Array.from 사용)
+    Array.from(formData.entries()).forEach(([key, value]) => {
+      if (typeof value === 'string') {
+        console.log(`${key}: ${value} (string)`);
+      } else if (value instanceof File) {
+        console.log(`${key}: ${value.name} (File)`);
+      }
+    });
 
     try {
-      const district_name = form.district;
-      console.log('지역 이름:', district_name);
+      console.log('지역 이름:', form.district);
       console.log('업로드할 파일:', uploadFile);
 
-      const response = await axios.post('http://43.201.146.141:8000/chatbot/upload', formData, {
+      const response = await axios.post('http://3.219.73.203:8000/chatbot/upload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
-          // 추가적인 헤더가 필요한 경우 여기에 추가합니다.
         },
         params: {
-          district_name: district_name,
+          district_name: form.district,
         },
       });
-
       console.log('서버 응답:', response.data);
     } catch (error) {
       console.error('파일 업로드 중 에러 발생:', error);
@@ -75,19 +82,19 @@ export const uploadFileFlow = ({ form, setForm }: DistrictFlowProps) => ({
     },
     function: async (params: Params) => {
       setForm({ ...form, district: params.userInput });
-      const url = 'http://43.201.146.141:8000/chatbot/upload';
+      //   const url = 'http://54.174.172.76:8000/chatbot/upload';
 
-      const district_name = params.userInput;
+      //   const district_name = params.userInput;
 
-      console.log('district_name', district_name);
-      try {
-        const response = await axios.post(url, { district_name: district_name });
-        console.log(response);
-        // console.log(typeof response);
-        // console.log(typeof district_name);
-      } catch (error) {
-        console.log(error);
-      }
+      //   console.log('district_name', district_name);
+      //   try {
+      //     const response = await axios.post(url, { district_name: district_name });
+      //     console.log(response);
+      //     // console.log(typeof response);
+      //     // console.log(typeof district_name);
+      //   } catch (error) {
+      //     console.log(error);
+      //   }
     },
     path: 'uploadFile_start',
   },
