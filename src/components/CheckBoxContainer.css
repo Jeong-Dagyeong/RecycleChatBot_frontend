@@ -11,8 +11,10 @@
   height: 75px;
 }
 
-.rcb-chat-tooltip.rcb-tooltip-show {
-}
+/* .rcb-media-display-image {
+  width: 640px !important;
+  height: 640px !important;
+} */
 
 .rcb-chat-window {
   box-shadow:
