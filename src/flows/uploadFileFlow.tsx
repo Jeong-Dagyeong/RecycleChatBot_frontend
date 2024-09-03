@@ -1,20 +1,15 @@
-import { Dispatch, SetStateAction } from 'react';
 import { Params } from '../types/Params';
-import Card from '@mui/material/Card';
 import axios from 'axios';
 import Box from '@mui/material/Box';
 import { Link } from '@mui/material';
 import Resizer from 'react-image-file-resizer';
-import { resolve } from 'path';
 
 type DistrictFlowProps = {
-  form: { district: string };
-  setForm: Dispatch<SetStateAction<{ district: string }>>;
+  form: { district: string; image?: string };
+  setForm: React.Dispatch<React.SetStateAction<{ district: string; image?: string }>>;
 };
 
 export const handleUpload = async (params: Params, { form, setForm }: DistrictFlowProps) => {
-  // 이미지 파일을 Base64로 변환 ➡️ Base64 문자열(String)을 formData에 넣어 API로 전송
-
   const uploadFile = params.file;
 
   if (uploadFile) {
@@ -25,9 +20,9 @@ export const handleUpload = async (params: Params, { form, setForm }: DistrictFl
     // 디버깅을 위한 FormData 내용 출력 (Array.from 사용)
     Array.from(formData.entries()).forEach(([key, value]) => {
       if (typeof value === 'string') {
-        console.log(`${key}: ${value} (string)`);
+        // console.log(`${key}: ${value} (string)`);
       } else if (value instanceof File) {
-        console.log(`${key}: ${value.name} (File)`);
+        // console.log(`${key}: ${value.name} (File)`);
       }
     });
 
@@ -35,16 +30,27 @@ export const handleUpload = async (params: Params, { form, setForm }: DistrictFl
       console.log('지역 이름:', form.district);
       console.log('업로드할 파일:', uploadFile);
 
-      const response = await axios.post('http://3.35.192.132:8000/chatbot/upload', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-        params: {
-          district_name: form.district,
-        },
-      });
-      console.log('서버 응답:', response.data);
+      const response = await axios
+        .post('http://54.180.199.92:8000/chatbot/upload', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+          params: {
+            district_name: form.district,
+          },
+        })
+        // params.userInput = '';
+        // return response;
+        .then(response => {
+          console.log('uploadfile함수', response);
 
+          form.district = '';
+
+          // setForm({ district: params.userInput, image: params.file });
+
+          return response;
+        });
+      // console.log('서버 응답:', response.data);
       return response; // 응답을 반환합니다.
     } catch (error) {
       console.error('파일 업로드 중 에러 발생:', error);
@@ -90,6 +96,7 @@ export const uploadFileFlow = ({ form, setForm }: DistrictFlowProps) => ({
     },
     function: async (params: Params) => {
       setForm({ ...form, district: params.userInput });
+      console.log('form', form);
     },
     path: 'uploadFile_start',
   },
@@ -97,6 +104,9 @@ export const uploadFileFlow = ({ form, setForm }: DistrictFlowProps) => ({
   uploadFile_start: {
     message: '사진을 업로드 해주세요!',
     chatDisabled: true,
+    // function: (params: Params) => {
+    //   setForm({ district: params.userInput, image: params.file });
+    // },
     // file: async (params: Params) => {
     //   function getBaseUrl() {
     //     const file = params?.files?.[0] as File;
@@ -133,6 +143,7 @@ export const uploadFileFlow = ({ form, setForm }: DistrictFlowProps) => ({
         // Update the form with the resized image
         setForm(form => ({ ...form, file: image }));
         console.log(file);
+
         return image;
       } catch (error) {
         console.error('Error resizing the image:', error);
@@ -145,6 +156,9 @@ export const uploadFileFlow = ({ form, setForm }: DistrictFlowProps) => ({
   re_upload: {
     message: '다른 사진을 업로드 해주세요!',
     chatDisabled: true,
+    // function: (params: Params) => {
+    //   setForm({ district: params.userInput, image: params.file });
+    // },
     // file: async (params: Params) => {
     //   function getBaseUrl() {
     //     const file = params?.files?.[0] as File;
@@ -193,6 +207,9 @@ export const uploadFileFlow = ({ form, setForm }: DistrictFlowProps) => ({
   },
   uploadFile_end: {
     message: '보내주신 사진의 재활용법 입니다.',
+    function: (params: Params) => {
+      setForm({ district: params.userInput });
+    },
     component: async (params: Params) => {
       const response = await handleUpload({ ...params, ...form }, { form, setForm });
       return (

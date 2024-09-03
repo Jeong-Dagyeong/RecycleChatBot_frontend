@@ -123,12 +123,14 @@ function App() {
     communicate: {
       function: (params: Params) => {
         setForm({ district: params.userInput });
+        // 추가
+        // params.userInput = '';
       },
       message: async (params: Params) => {
         console.log(params);
         // 이미지로 대형폐기물 배출 안내
         // if (params.prevPath === 'uploadFile_end') return;
-        const url = 'http://3.35.192.132:8000/chatbot/chat';
+        const url = 'http://54.180.199.92:8000/chatbot/chat';
         const user_input = form.district;
         try {
           const response = await axios.post(url, { user_input: user_input }).then(response => {
