@@ -1,6 +1,6 @@
 import ChatBot from 'react-chatbotify';
 import { Params } from './types/Params';
-import React from 'react';
+import React, { useRef } from 'react';
 import { uploadFileFlow } from './flows/uploadFileFlow';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
@@ -12,13 +12,14 @@ function App() {
   const [form, setForm] = React.useState<{ district: string }>({
     district: '',
   });
-
+  // console.log('form', form);
   const settings = {
     // isOpen : 오픈형식
     isOpen: true,
     general: {
       fontFamily: 'Pretendard-Regular',
       primaryColor: '#304D30',
+      actionDisabledIcon: 'none',
     },
     tooltip: {
       mode: 'CLOSE',
@@ -56,6 +57,7 @@ function App() {
       showMediaDisplay: true,
       sendFileName: false,
       multiple: false,
+      accept: '*',
     },
     footer: {
       text: (
@@ -71,15 +73,19 @@ function App() {
   };
 
   const helpOptions = ['사용방법', '재활용품 지원정책', '이미지로 대형폐기물 배출 안내'];
-  const howToReCycle = ['재활용품 지원 정책', '물건 분리배출 방법'];
+  const howToReCycle = ['재활용품 지원 정책', '이미지로 대형폐기물 배출 안내'];
+
+  const inputTextRef = useRef('');
 
   const flow = {
     start: {
-      message: '안녕하세요! 서울 Green Seoul Bot 입니다. \n재활용품과 관련하여 궁금한 것이 있으시다면 무엇이든지 물어보세요!',
+      message: '안녕하세요! \n서울 Green Seoul Bot 입니다. \n재활용품과 관련하여 궁금한 것이 있으시다면 무엇이든지 물어보세요!',
       options: helpOptions,
+      function: (params: Params) => {
+        setForm({ district: params.userInput });
+      },
       path: (params: Params) => {
-        console.log();
-
+        inputTextRef.current = params.userInput;
         switch (params.userInput) {
           case '사용방법':
             return 'middle';
@@ -94,7 +100,8 @@ function App() {
     },
 
     middle: {
-      message: '저는 재활용품과 관련된 여러분들의 궁금증을 해결해 드리는 Recyle Chatbot 입니다. 2. 물건 분리배출 방법 안내 블라블라라라라라라',
+      message:
+        '저는 재활용품과 관련된 여러분들의 궁금증을 해결해 드리는 Green Seoul Bot입니다. \n\n재활용품 지원 정책이나 버리고자 하는 대형폐기물의 사진을 올려주시면 제가 알려드릴게요! \n\n<Green Seoul Bot의 기능> \n1. 재활용품 지원정책 안내 \n정책정보를 확인 할 지역구를 선택하거나 메세지로 입력하시면 해당 지역구에서 시행하는 정책정보를 알려드려요. \n\n2. 물건 분리배출 방법 안내 \n버리고자 하는 대형폐기물의 사진을 첨부하시면 사진을 분석하여 해당 폐기물의 구별 수수료를 알려드려요.',
       options: howToReCycle,
       path: 'how_to_recycle',
     },
@@ -105,8 +112,8 @@ function App() {
         switch (params.userInput) {
           case '재활용품 지원 정책':
             return 'district_start';
-          case '대형가전 배출 방법':
-            return 'uploadFile_start';
+          case '이미지로 대형폐기물 배출 안내':
+            return 'uploadFile_district';
           default:
             return 'communicate';
         }
@@ -114,32 +121,38 @@ function App() {
     },
 
     communicate: {
+      function: (params: Params) => {
+        setForm({ district: params.userInput });
+        // 추가
+        // params.userInput = '';
+      },
       message: async (params: Params) => {
-        const url = 'http://43.201.146.141:8000/chatbot/chat';
-        const user_input = params.userInput;
-        console.log(user_input);
-        console.log('hi');
-
-        console.log(params.userInput);
+        console.log(params);
+        // 이미지로 대형폐기물 배출 안내
+        // if (params.prevPath === 'uploadFile_end') return;
+        const url = 'http://54.180.199.92:8000/chatbot/chat';
+        const user_input = form.district;
         try {
-          const response = await axios.post(url, { user_input: user_input });
-          console.log('response.data.message', response.data.message);
-          console.log('hi1');
-
-          return response.data.message;
+          const response = await axios.post(url, { user_input: user_input }).then(response => {
+            console.log(response);
+            form.district = '';
+            return response.data.message;
+          });
+          return response;
         } catch (error) {
           console.log(error);
-          console.log('hi2');
         }
       },
-
-      path: 'process_options',
+      options: (form as any).file ? undefined : ['처음으로'],
+      path: (params: Params) => {
+        switch (params.userInput) {
+          case '처음으로':
+            return 'start';
+          default:
+            return 'communicate';
+        }
+      },
     },
-
-    // communicate_answer: {
-    //   transition: { duration: 0 },
-    //   path: 'communicate',
-    // },
 
     ...DistrictFlow({ form, setForm }),
     ...uploadFileFlow({ form, setForm }),

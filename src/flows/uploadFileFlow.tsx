@@ -1,36 +1,57 @@
-import { Dispatch, SetStateAction } from 'react';
 import { Params } from '../types/Params';
-import Card from '@mui/material/Card';
 import axios from 'axios';
+import Box from '@mui/material/Box';
+import { Link } from '@mui/material';
+import Resizer from 'react-image-file-resizer';
 
 type DistrictFlowProps = {
-  form: { district: string };
-  setForm: Dispatch<SetStateAction<{ district: string }>>;
+  form: { district: string; image?: string };
+  setForm: React.Dispatch<React.SetStateAction<{ district: string; image?: string }>>;
 };
 
 export const handleUpload = async (params: Params, { form, setForm }: DistrictFlowProps) => {
-  const uploadFile = params.files?.[0];
+  const uploadFile = params.file;
 
   if (uploadFile) {
     const formData = new FormData();
-    formData.append('files', uploadFile);
+    formData.append('image_file', uploadFile);
+    formData.append('district_name', form.district);
+
+    // 디버깅을 위한 FormData 내용 출력 (Array.from 사용)
+    Array.from(formData.entries()).forEach(([key, value]) => {
+      if (typeof value === 'string') {
+        // console.log(`${key}: ${value} (string)`);
+      } else if (value instanceof File) {
+        // console.log(`${key}: ${value.name} (File)`);
+      }
+    });
 
     try {
-      const district_name = form.district;
-      console.log('지역 이름:', district_name);
+      console.log('지역 이름:', form.district);
       console.log('업로드할 파일:', uploadFile);
 
-      const response = await axios.post('http://43.201.146.141:8000/chatbot/upload', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          // 추가적인 헤더가 필요한 경우 여기에 추가합니다.
-        },
-        params: {
-          district_name: district_name,
-        },
-      });
+      const response = await axios
+        .post('http://54.180.199.92:8000/chatbot/upload', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+          params: {
+            district_name: form.district,
+          },
+        })
+        // params.userInput = '';
+        // return response;
+        .then(response => {
+          console.log('uploadfile함수', response);
 
-      console.log('서버 응답:', response.data);
+          form.district = '';
+
+          // setForm({ district: params.userInput, image: params.file });
+
+          return response;
+        });
+      // console.log('서버 응답:', response.data);
+      return response; // 응답을 반환합니다.
     } catch (error) {
       console.error('파일 업로드 중 에러 발생:', error);
     }
@@ -75,19 +96,7 @@ export const uploadFileFlow = ({ form, setForm }: DistrictFlowProps) => ({
     },
     function: async (params: Params) => {
       setForm({ ...form, district: params.userInput });
-      const url = 'http://43.201.146.141:8000/chatbot/upload';
-
-      const district_name = params.userInput;
-
-      console.log('district_name', district_name);
-      try {
-        const response = await axios.post(url, { district_name: district_name });
-        console.log(response);
-        // console.log(typeof response);
-        // console.log(typeof district_name);
-      } catch (error) {
-        console.log(error);
-      }
+      console.log('form', form);
     },
     path: 'uploadFile_start',
   },
@@ -95,24 +104,126 @@ export const uploadFileFlow = ({ form, setForm }: DistrictFlowProps) => ({
   uploadFile_start: {
     message: '사진을 업로드 해주세요!',
     chatDisabled: true,
-    file: (params: Params) => {
-      handleUpload(params, { form, setForm });
-      // console.log('form', form);
-      // console.log('params', params);
+    // function: (params: Params) => {
+    //   setForm({ district: params.userInput, image: params.file });
+    // },
+    // file: async (params: Params) => {
+    //   function getBaseUrl() {
+    //     const file = params?.files?.[0] as File;
+    //     const reader = new FileReader();
+    //     let baseString: any;
+    //     reader.onloadend = function () {
+    //       baseString = reader.result;
+    //       setForm(form => ({ ...form, file: baseString }));
+    //     };
+    //     reader.readAsDataURL(file);
+
+    //     return baseString;
+    //   }
+    //   getBaseUrl();
+    // },
+    file: async (params: Params) => {
+      try {
+        const file = params?.files?.[0] as File;
+        const image: string = await new Promise((resolve, reject) => {
+          Resizer.imageFileResizer(
+            file, // 원본 파일
+            640, // 최대 가로 너비
+            640, // 최대 세로 높이
+            'JPEG', // 변환할 이미지 포맷
+            100, // 품질
+            0, // 회전
+            image => {
+              resolve(image as string);
+            },
+            'base64', // 출력 타입
+          );
+        });
+
+        // Update the form with the resized image
+        setForm(form => ({ ...form, file: image }));
+        console.log(file);
+
+        return image;
+      } catch (error) {
+        console.error('Error resizing the image:', error);
+        // Handle the error appropriately here, e.g., set an error state
+      }
     },
+
     path: 'uploadFile_end',
   },
   re_upload: {
     message: '다른 사진을 업로드 해주세요!',
     chatDisabled: true,
-    file: (params: Params) => {
-      handleUpload(params, { form, setForm });
+    // function: (params: Params) => {
+    //   setForm({ district: params.userInput, image: params.file });
+    // },
+    // file: async (params: Params) => {
+    //   function getBaseUrl() {
+    //     const file = params?.files?.[0] as File;
+    //     const reader = new FileReader();
+    //     let baseString: any;
+    //     reader.onloadend = function () {
+    //       baseString = reader.result;
+    //       setForm(form => ({ ...form, file: baseString }));
+    //     };
+    //     reader.readAsDataURL(file);
+
+    //     return baseString;
+    //   }
+    //   getBaseUrl();
+    // },
+
+    file: async (params: Params) => {
+      try {
+        const file = params?.files?.[0] as File;
+        const image: string = await new Promise((resolve, reject) => {
+          Resizer.imageFileResizer(
+            file, // 원본 파일
+            640, // 최대 가로 너비
+            640, // 최대 세로 높이
+            'JPEG', // 변환할 이미지 포맷
+            100, // 품질
+            0, // 회전
+            image => {
+              resolve(image as string);
+            },
+            'base64', // 출력 타입
+          );
+        });
+
+        // Update the form with the resized image
+        setForm(form => ({ ...form, file: image }));
+        console.log(file);
+        return image;
+      } catch (error) {
+        console.error('Error resizing the image:', error);
+        // Handle the error appropriately here, e.g., set an error state
+      }
     },
+
     path: 'uploadFile_end',
   },
   uploadFile_end: {
     message: '보내주신 사진의 재활용법 입니다.',
-    component: <Card sx={{ maxWidth: 345 }}>{/* <img src=`{}` /> */}</Card>,
+    function: (params: Params) => {
+      setForm({ district: params.userInput });
+    },
+    component: async (params: Params) => {
+      const response = await handleUpload({ ...params, ...form }, { form, setForm });
+      return (
+        <Box sx={{ p: 2, border: '1px solid grey', mt: 2, marginLeft: 8, width: 300, borderRadius: 2, borderColor: 163020 }}>
+          <Box component="section">
+            <p>{response?.data.message}</p>
+          </Box>
+          <Link href={response?.data.district_url} target="_blank" variant="body2" sx={{ mt: 1 }}>
+            누리집(홈페이지) 바로가기
+          </Link>
+        </Box>
+      );
+    },
+
     options: ['다른사진 업로드 하기', '처음으로'],
     chatDisabled: false,
     path: (params: Params) => {

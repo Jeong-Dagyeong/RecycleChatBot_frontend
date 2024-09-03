@@ -9,8 +9,6 @@ type DistrictFlowProps = {
   setForm: Dispatch<SetStateAction<{ district: string }>>;
 };
 
-const options = ['처음으로'];
-
 export const DistrictFlow = ({ form, setForm }: DistrictFlowProps) => ({
   district_start: {
     message: '안녕하세요! Green Seoul Bot 입니다. \n서울특별시 구별 재활용품 지원정책에 대해 궁금한것이 있다면 무엇이든지 물어보세요.',
@@ -45,22 +43,16 @@ export const DistrictFlow = ({ form, setForm }: DistrictFlowProps) => ({
       max: 1,
     },
     chatDisabled: true,
-
+    // 리팩토링 가능한 코드
     function: async (params: Params) => {
-      setForm({ ...form, district: params.userInput });
-      const url = 'http://43.201.146.141:8000/chatbot/policy';
-
-      const district_name = params.userInput;
-
-      console.log('params', params.userInput);
-      try {
-        const response = await axios.post(url, { district_name: district_name });
-        console.log(response);
-        console.log(typeof response);
-        console.log(typeof district_name);
-      } catch (error) {
-        console.log(error);
-      }
+      // setForm({ ...form, district: params.userInput });
+      // const url = '54.180.199.92:8000/chatbot/policy';
+      // const district_name = params.userInput;
+      // try {
+      //   const response = await axios.post(url, { district_name: district_name });
+      // } catch (error) {
+      //   console.log(error);
+      // }
     },
 
     path: 'district_end',
@@ -68,17 +60,26 @@ export const DistrictFlow = ({ form, setForm }: DistrictFlowProps) => ({
 
   district_end: {
     message: `서울특별시 ${form.district}의 결과는 다음과 같습니다.`,
+    function: (params: Params) => {
+      setForm({ district: params.userInput });
+    },
     component: async (params: Params) => {
-      const url = 'http://43.201.146.141:8000/chatbot/policy';
+      const url = 'http://54.180.199.92:8000/chatbot/policy';
       const district_name = params.userInput;
       console.log('district_name', params.userInput);
       try {
-        const response = await axios.post(url, { district_name: district_name });
+        const response = await axios.post(url, { district_name: district_name }).then(response => {
+          console.log(response);
+          form.district = '';
+          return response;
+        });
         console.log(response);
         console.log('message', response.data.message);
 
-        console.log(typeof response);
-        console.log(typeof district_name);
+        // form.district = '';
+
+        // console.log(typeof response);
+        // console.log(typeof district_name);
 
         return (
           <Box sx={{ p: 2, border: '1px solid grey', mt: 2, marginLeft: 8, width: 300, borderRadius: 2, borderColor: 163020 }}>
@@ -94,7 +95,14 @@ export const DistrictFlow = ({ form, setForm }: DistrictFlowProps) => ({
         console.log(error);
       }
     },
-    path: 'start',
-    options: options,
+    options: ['처음으로'],
+    path: (params: Params) => {
+      switch (params.userInput) {
+        case '처음으로':
+          return 'start';
+        default:
+          return 'communicate';
+      }
+    },
   },
 });
