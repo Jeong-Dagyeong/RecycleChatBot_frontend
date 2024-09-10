@@ -66,7 +66,7 @@ export const districtFlow = ({ form, setForm }: DistrictFlowProps) => ({
       setForm({ district: params.userInput });
     },
     component: async (params: Params) => {
-      const url = `http://3.35.192.132:8000/${PROXY}/chatbot/policy`;
+      const url = `${PROXY}/chatbot/policy`;
       const district_name = params.userInput;
       console.log('district_name', params.userInput);
       try {

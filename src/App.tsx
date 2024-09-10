@@ -136,7 +136,7 @@ function App() {
         console.log(params);
         // 이미지로 대형폐기물 배출 안내
         // if (params.prevPath === 'uploadFile_end') return;
-        const url = `http://3.35.192.132:8000/${PROXY}/chatbot/chat`;
+        const url = `${PROXY}/chatbot/chat`;
         const user_input = form.district;
         try {
           const response = await axios.post(url, { user_input: user_input }).then(response => {
