@@ -14,9 +14,9 @@
 
 
 ### 💡 서비스 개요 
-###### ICT콤플렉스 SW개발 공모전(피우다 프로젝트)에 본선진출한 개발물 입니다.
+###### 2024년 「미래내일 일경험사업」 우수사례 공모전 - 프로젝트 분야 본선진출한 개발물 입니다.
 
-React chatbotify 오픈 API를 활용한 서울시 재활용품 정책 및 대형폐기물 수수료 정보 안내 챗봇을 기획하였습니다.
+React chatbotify 오픈소스 라를 활용한 서울시 재활용품 정책 및 대형폐기물 수수료 정보 안내 챗봇을 기획하였습니다.
 
 Green Seoul Bot은 서울시 재활용품 관련 지원 정책에 특화된 AI 기술로, 시민들이 보다 쉽게 고품질의 분리배출을 실천할 수 있도록 도와줍니다.
 각 지역마다 다른 재활용품 수거 품목과 기준, 그리고 보상품 정보를 친절하게 안내하며, 사용자가 이미지를 첨부하면 대형폐기물의 수수료 정보도 간편하게 제공해 드립니다.
@@ -29,14 +29,15 @@ Green Seoul Bot은 서울시 재활용품 관련 지원 정책에 특화된 AI �
 2024.10.09 ~ 2024.12.03 (55일)
 
 ### ♻️ 배포 URL
-[Green Seoul Bot](<https://green-seoul-bot.vercel.app/>) (Front-end)
+[Recycle Chatbot](https://greenseoulbot.netlify.app/) (Front-end)
 
 ### 👩🏻‍💻 팀원 
 |이름|github|담당|
 |------|---|---|
-|정다경(팀장)|<https://github.com/Jeong-Dagyeong>|Front-end & UX & UI|
+|정다경|<https://github.com/Jeong-Dagyeong>|Front-end & UX & UI|
 |김지현|<https://github.com/jyun-KIM>|Back-end & AI|
 |김채린|<https://github.com/Chai-Lynn>|PM|
+|유주아|-|Back-end|
 
 ### 🗂️ 디렉터리 구조 
 <details>
@@ -121,18 +122,7 @@ Green Seoul Bot은 서울시 재활용품 관련 지원 정책에 특화된 AI �
      '한국 장애인 개발원'에서 개발된 'KoddiUD 온고딕'을 사용하여 고령자, 노안, 저시력자 등의 오독 가능성을 줄이고 가독성을 높임
 
 
-### 🎥 Green Seoul Bot 시연 영상 
-[시연 영상](<https://youtu.be/e-lMW-KMPv8>)
+### 🎥 Recycle Chatbot 시연 영상 
+[시연 영상](<https://youtu.be/e-lMW-KMPv8>)](https://youtu.be/Rp4eszgGWuE)
 
-### 🎨 Green Seoul Bot 피그마 
-[Figma](<https://www.figma.com/design/7dJt5U5QbMwwsBoiVEK5f3/Green-Seoul-Bot?node-id=0-1&t=A2BzgizBRsGz4Dhb-1>)
-
-#### Green Seoul Bot 메인
-<img width="1417" alt="스크린샷 2025-01-06 오후 11 24 21" src="https://github.com/user-attachments/assets/6e815104-e384-4d29-b077-285d2b9ac912" />
-
-#### Green Seoul Bot 고대비 모드(다크모드)
-<img width="1426" alt="스크린샷 2025-01-06 오후 11 32 45" src="https://github.com/user-attachments/assets/d645502e-a00c-4fb0-8462-3c188d610409" />
-
-#### Green Seoul Bot 확대 모드
-<img width="1670" alt="스크린샷 2025-01-08 오후 5 35 26" src="https://github.com/user-attachments/assets/6fe5b09e-6147-446c-ae7b-bf3578ce32a5" />
 
