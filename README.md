@@ -29,7 +29,7 @@ Green Seoul Bot은 서울시 재활용품 관련 지원 정책에 특화된 AI �
 2024.10.09 ~ 2024.12.03 (55일)
 
 ### ♻️ 배포 URL
-[Green Seoul Bot](<https://green-seoul-bot.vercel.app/>)(Front-end)
+[Green Seoul Bot](<https://green-seoul-bot.vercel.app/>) (Front-end)
 
 ### 👩🏻‍💻 팀원 
 |이름|github|담당|
