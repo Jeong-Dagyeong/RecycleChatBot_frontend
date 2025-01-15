@@ -98,6 +98,9 @@
   __차별성__
 
   구청 웹사이트에서 정책을 찾는 번거로움을 해소해 빠르고 직접적인 정보 제공이 가능하며, 사용자 맞춤형 정   보 접근을 도움
+
+  ![정책정보(recycle-chatbot)](https://github.com/user-attachments/assets/ddca3d79-1133-47f0-b1cf-21bcafc2d30e)
+
   
 - #### 이미지 첨부를 통한 대형폐기물 수수료 안내 기능
   1. 서울시 25개 지역구의 버튼 중 원하는 구를 선택 후, 폐기물 이미지를 첨부하면 AI 모델이 대형폐기물 유형을 분류하고 해당 폐기물에 부과되는 수수료 안내
@@ -107,12 +110,17 @@
 
   구청 사이트에서 복잡한 단계를 거쳐 정보를 찾는 방식을 개선하여 사용자가 이미지 한 장으로 폐기물 수수료   를 빠르게 확인할 수 있도록함
 
+  ![이미지(recycle-chatbot)](https://github.com/user-attachments/assets/33584e71-ef7b-4479-b06f-f21586fec039)
+
 - #### 텍스트 입력을 통한 재활용품 정책 안내 기능
   1. 텍스트 입력 칸은 이미지 첨부, 구 선택할 때를 제외 하곤 모두 활성화 
   2. 기존 언어 모델에 검색 기능을 결합하여 입력된 질문과 관련된 정보를 데이터베이스에 검색한 후,  이를 기반으로 답변을 생성하는 RAG(Retrieval-Augmented Generation)기법을 도입하여 구현
+ 
+  ![input(recycle-chatbot)](https://github.com/user-attachments/assets/b5748ba4-b2a9-4665-b2b2-9369cb28c132)
 
 
-### 🎥 Recycle Chatbot 시연 영상 
-[시연 영상](<https://youtu.be/e-lMW-KMPv8>)](https://youtu.be/Rp4eszgGWuE)
+
+### 🎥 Recycle ChatBot 시연 영상 
+[시연영상](<https://youtu.be/Rp4eszgGWuE?si=YiM3Ad_6W3CfbQ2l>)
 
 
